@@ -1,0 +1,6 @@
+---
+ranger_username: "{{ ansible_user }}"
+ranger_commands_py: commands.py
+ranger_rc_conf: rc.conf
+ranger_rifle_conf: rifle.conf
+ranger_scope_sh: scope.sh

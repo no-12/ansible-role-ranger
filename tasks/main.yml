@@ -1,0 +1,63 @@
+---
+- name: Ensure Archlinux packages are present
+  become: true
+  pacman:
+    name:
+      - ranger
+      - glib2
+      - atool
+  when: ansible_facts['os_family'] == "Archlinux"
+
+- name: Ensure Debian packages are present
+  become: true
+  apt:
+    name:
+      - ranger
+      - libglib2.0-0
+      - atool
+  when: ansible_facts['os_family'] == "Debian"
+
+- name: Ensure ranger user is present
+  user:
+    name: "{{ ranger_username }}"
+  register: ranger_user
+
+- name: Ensure config dir is present
+  file:
+    path: "{{ ranger_user.home }}/.config/ranger"
+    state: directory
+    recurse: yes
+    owner: "{{ ranger_user.name }}"
+    group: "{{ ranger_user.group }}"
+
+- name: Ensure commands.py is present
+  copy:
+    src: "{{ ranger_commands_py }}"
+    dest: "{{ ranger_user.home }}/.config/ranger/commands.py"
+    owner: "{{ ranger_user.name }}"
+    group: "{{ ranger_user.group }}"
+    mode: 0644
+
+- name: Ensure rc.conf is present
+  copy:
+    src: "{{ ranger_rc_conf }}"
+    dest: "{{ ansible_env.HOME }}/.config/ranger/rc.conf"
+    owner: "{{ ranger_user.name }}"
+    group: "{{ ranger_user.group }}"
+    mode: 0644
+
+- name: Ensure rifle.conf is present
+  copy:
+    src: "{{ ranger_rifle_conf }}"
+    dest: "{{ ansible_env.HOME }}/.config/ranger/rifle.conf"
+    owner: "{{ ranger_user.name }}"
+    group: "{{ ranger_user.group }}"
+    mode: 0644
+
+- name: Ensure scope.sh is present
+  copy:
+    src: "{{ ranger_scope_sh }}"
+    dest: "{{ ansible_env.HOME }}/.config/ranger/scope.sh"
+    owner: "{{ ranger_user.name }}"
+    group: "{{ ranger_user.group }}"
+    mode: 0755
