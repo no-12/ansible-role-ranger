@@ -9,7 +9,7 @@
 			"*.yml": "ansible"
 		},
 		"python.linting.pylintUseMinimalCheckers": false,
-		"python.pythonPath": ".py_venv/bin/python3",
+		"python.pythonPath": ".py_venv/bin/python",
 		"python.venvPath": "${workspaceFolder}/.py_venv",
 		"shellcheck.customArgs": [
 			"-x"
